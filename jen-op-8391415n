@@ -14,6 +14,7 @@ pipeline {
     stage('Op-8391415n-S3') {
       steps {
         script {
+          def v2
           v2 = input ( 
              message: 'Action',
              parameters: [choice(name:'',choices: ['Proceed to Roll out to Prod server', 'Roll back QA server'])]
