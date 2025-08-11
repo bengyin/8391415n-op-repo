@@ -14,20 +14,20 @@ pipeline {
     stage('Op-8391415n-S3') {
       steps {
         script {
-          def v2
-          v2 = input ( 
+          def v3
+          v3 = input ( 
              message: 'Action',
              parameters: [choice(name:'',choices: ['Proceed to Roll out to Prod server', 'Roll back QA server'])]
           )
-          if (v2 == 'Roll back QA server') {
-            echo 'Op-8391415n-S3: QA server fails after update and is rolled back'
+          if (v3 == 'Proceed to Roll out to Prod server') {
+            echo 'Op-8391415n-S3: Proceed to roll out to Prod server'
+          } else if (v3 == 'Roll back QA server') {
+            echo "Op-8391415n-S3: QA server fails after update and is rolled back"
             error('Aborting')
-          } else if (v2 == 'Proceed to Roll out to Prod server') {
-            echo "Op-8391415n-S3: Proceed to roll out to Prod server"
           }	
         }
       }
-    }   
+    }
     stage('Op-8391415n-S4') {
       steps {
         echo 'Op-8391415n-S4: prod web server is backup and updated'
@@ -40,7 +40,19 @@ pipeline {
     }
     stage('Op-8391415n-S6') {
       steps {
-        echo 'Op-8391415n-S6: Proceed to release Prod web server to production'
+        script {
+          def v6
+          v6 = input ( 
+             message: 'Action',
+             parameters: [choice(name:'',choices: ['Proceed to release Prod web server to production', 'Roll back Prod web server'])]
+          )
+          if (v6 == 'Proceed to release Prod web server to production') {
+            echo 'Op-8391415n-S6: Proceed to release Prod web server to production'
+          } else if (v6 == 'Roll back Prod web server') {
+            echo "Op-8391415n-S6: Prod web server is rolled back"
+            error('Aborting')
+          }	
+        }
       }
     }
     stage('Op-8391415n-S7') {
