@@ -3,37 +3,37 @@ pipeline {
   stages {
     stage('Op-8391415n-S1') {
       steps {
-        echo 'Stage 1'
+        echo 'Op-S1-8391415n: QA web server is backup and updated'
       }
     }
     stage('Op-8391415n-S2') {
       steps {
-        echo 'Stage 2'
+        echo 'Op-8391415n-S2: Checking on whether QA server is running after update'
       }
     }
     stage('Op-8391415n-S3') {
       steps {
-        echo 'Stage 3'
+        echo 'Op-8391415n-S3: Proceed to roll out to Prod server'
       }
     }
     stage('Op-8391415n-S4') {
       steps {
-        echo 'Stage 4'
+        echo 'Op-8391415n-S4: prod web server is backup and updated'
       }
     }
     stage('Op-8391415n-S5') {
       steps {
-        echo 'Stage 5'
+        echo 'Op-8391415n-S5: Checking on whether Prod server is running after update'
       }
     }
     stage('Op-8391415n-S6') {
       steps {
-        echo 'Stage 6'
+        echo 'Op-8391415n-S6: Proceed to release Prod web server to production'
       }
     }
     stage('Op-8391415n-S7') {
       steps {
-        echo 'Stage 7'
+        echo 'Op-8391415n-S7: Prod web server is monitored and ready to serve'
       }
     }
   }
