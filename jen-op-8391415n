@@ -20,11 +20,12 @@ pipeline {
           )
           if (v2 == 'Roll back QA server') {
             echo 'Op-8391415n-S3: QA server fails after update and is rolled back'
+            error('Aborting')
           } else if (v2 == 'Proceed to Roll out to Prod server') {
             echo "Op-8391415n-S3: Proceed to roll out to Prod server"
           }	
         }
-	    }
+      }
     }   
     stage('Op-8391415n-S4') {
       steps {
