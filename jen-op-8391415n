@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+    PATH = "/opt/puppetlabs/bin:${env.PATH}"
+  }
   stages {
     stage('Op-8391415n-S1') {
       steps {
