@@ -44,7 +44,7 @@ pipeline {
             docker container rm 8391415n-qa-svr -f
             docker run -d --privileged --net customnetwork --ip 192.168.100.110 \
             -h "8391415n-qa-svr.localdomain" --name 8391415n-qa-svr --add-host "sddo-vm.localdomain:192.0.2.104" \
-            -e TZ=Asia/Singapore -p 33200:80 qa-bkup-image /usr/sbin/sshd -D
+            -e TZ=Asia/Singapore -p 33200:80 qa-bkup-image bash -c "service apache2 start && exec /usr/sbin/sshd -D"
             '''
             echo "Op-8391415n-S3: QA server fails after update and is rolled back"
             error('Aborting')
