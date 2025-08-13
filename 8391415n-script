@@ -7,4 +7,4 @@ puppet resource file /operate ensure=absent force=true
 puppet resource file /operate ensure=directory
 cd /operate
 git clone https://github.com/bengyin/8391415n-op-repo.git
-cp -p /tmp/clone/8391415n-op-repo/index-op-8391415n.html /var/www/html
+cp -p /operate/8391415n-op-repo/index-op-8391415n.html /var/www/html
