@@ -9,8 +9,8 @@ pipeline {
         sh '''#!/bin/bash
         docker image rm qa-bkup-image -f;
         docker commit 8391415n-qa-svr qa-bkup-image;
-        puppet resource file /operate ensure=absent force=true;
-        puppet resource file /operate ensure=directory;
+        sudo puppet resource file /operate ensure=absent force=true;
+        sudo puppet resource file /operate ensure=directory;
         cd /operate;
         git clone https://github.com/bengyin/8391415n-op-repo.git;
         targets=8391415n-qa-svr.localdomain;
