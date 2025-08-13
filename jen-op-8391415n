@@ -22,6 +22,10 @@ pipeline {
     }
     stage('Op-8391415n-S2') {
       steps {
+        sh '''#!/bin/bash
+        curl -Is localhost:33200 | head -n 1 > /tmp/qa-result-file
+        cat /tmp/qa-result-file
+        '''
         echo 'Op-8391415n-S2: Checking on whether QA server is running after update'
       }
     }
