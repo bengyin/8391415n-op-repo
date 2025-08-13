@@ -8,3 +8,5 @@ puppet resource file /operate ensure=directory
 cd /operate
 git clone https://github.com/bengyin/8391415n-op-repo.git
 cp -p /operate/8391415n-op-repo/index-op-8391415n.html /var/www/html
+mv /var/www/html/index.html /var/www/html/index.html.bak
+mv /var/www/html/index-op-8391415n.html /var/www/html/index.html
