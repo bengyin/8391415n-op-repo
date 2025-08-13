@@ -54,11 +54,26 @@ pipeline {
     }
     stage('Op-8391415n-S4') {
       steps {
+        sh '''#!/bin/bash
+        docker image rm prod-bkup-image -f;
+        docker commit 8391415n-prod-svr prod-bkup-image;
+        puppet resource file /operate ensure=absent force=true;
+        puppet resource file /operate ensure=directory;
+        cd /operate;
+        git clone https://github.com/bengyin/8391415n-op-repo.git;
+        targets=8391415n-prod-svr.localdomain;
+        locate_script='/operate/8391415n-op-repo/8391415n-script';
+        bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
+        '''
         echo 'Op-8391415n-S4: prod web server is backup and updated'
       }
     }
     stage('Op-8391415n-S5') {
       steps {
+        sh '''#!/bin/bash
+        curl -Is localhost:33500 | head -n 1 > /tmp/prod-result-file;
+        cat /tmp/prod-result-file;
+        '''
         echo 'Op-8391415n-S5: Checking on whether Prod server is running after update'
       }
     }
@@ -73,6 +88,12 @@ pipeline {
           if (v6 == 'Proceed to release Prod web server to production') {
             echo 'Op-8391415n-S6: Proceed to release Prod web server to production'
           } else if (v6 == 'Roll back Prod web server') {
+            sh '''#!/bin/bash
+            docker container rm 8391415n-qa-svr -f
+            docker run -d --privileged --net customnetwork --ip 192.168.100.220 \
+            -h "8391415n-prod-svr.localdomain" --name 8391415n-prod-svr --add-host "sddo-vm.localdomain:192.0.2.104" \
+            -e TZ=Asia/Singapore -p 33500:80 prod_bkup_image bash -c "service apache2 start && exec /usr/sbin/sshd -D"
+            '''
             echo "Op-8391415n-S6: Prod web server is rolled back"
             error('Aborting')
           }	
