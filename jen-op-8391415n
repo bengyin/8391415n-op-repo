@@ -89,7 +89,7 @@ pipeline {
             echo 'Op-8391415n-S6: Proceed to release Prod web server to production'
           } else if (v6 == 'Roll back Prod web server') {
             sh '''#!/bin/bash
-            docker container rm 8391415n-qa-svr -f
+            docker container rm 8391415n-prod-svr -f
             docker run -d --privileged --net customnetwork --ip 192.168.100.220 \
             -h "8391415n-prod-svr.localdomain" --name 8391415n-prod-svr --add-host "sddo-vm.localdomain:192.0.2.104" \
             -e TZ=Asia/Singapore -p 33500:80 prod-bkup-image bash -c "service apache2 start && exec /usr/sbin/sshd -D"
