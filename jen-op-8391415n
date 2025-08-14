@@ -9,12 +9,12 @@ pipeline {
         sh '''#!/bin/bash
         docker image rm qa-bkup-image -f;
         docker commit 8391415n-qa-svr qa-bkup-image;
-        puppet resource file /operate ensure=absent force=true;
-        puppet resource file /operate ensure=directory;
-        cd /operate;
+        puppet resource file /operate/8391415n ensure=absent force=true;
+        puppet resource file /operate/8391415n ensure=directory;
+        cd /operate/8391415n;
         git clone https://github.com/bengyin/8391415n-op-repo.git;
         targets=8391415n-qa-svr.localdomain;
-        locate_script='/operate/8391415n-op-repo/8391415n-script';
+        locate_script='/operate/8391415n/8391415n-op-repo/8391415n-script';
         bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
         '''
         echo 'Op-S1-8391415n: QA web server is backup and updated'
@@ -57,12 +57,12 @@ pipeline {
         sh '''#!/bin/bash
         docker image rm prod-bkup-image -f;
         docker commit 8391415n-prod-svr prod-bkup-image;
-        puppet resource file /operate ensure=absent force=true;
-        puppet resource file /operate ensure=directory;
-        cd /operate;
+        puppet resource file /operate/8391415n ensure=absent force=true;
+        puppet resource file /operate/8391415n ensure=directory;
+        cd /operate/8391415n;
         git clone https://github.com/bengyin/8391415n-op-repo.git;
         targets=8391415n-prod-svr.localdomain;
-        locate_script='/operate/8391415n-op-repo/8391415n-script';
+        locate_script='/operate/8391415n/8391415n-op-repo/8391415n-script';
         bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
         '''
         echo 'Op-8391415n-S4: prod web server is backup and updated'
